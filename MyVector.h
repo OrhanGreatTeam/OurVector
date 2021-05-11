@@ -1,6 +1,8 @@
 #pragma once
+#include "VectorIterator.h"
 
-// стратегия изменения capacity
+
+// стратегия изменения capacity ..
 enum class ResizeStrategy {
     Additive,//+
     Multiplicative//*
@@ -14,43 +16,52 @@ class MyVector
 {
 public:
     // реализовать итераторы
-    class VectorIterator;
+    //9
+    class VectorIterator I;
     class ConstVectorIterator;
 
     // заполнить вектор значениями ValueType()
+    //3
     MyVector(size_t size = 0,
         ResizeStrategy = ResizeStrategy::Multiplicative,
         float coef = 1.5f);
 
-    // заполнить вектор значениями value
+    // заполнить вектор значениями value 
+    //1
     MyVector(size_t size,
         ValueType value,
         ResizeStrategy = ResizeStrategy::Multiplicative,
         float coef = 1.5f);
-
+    //2
     MyVector(const MyVector& copy);
+    //11
     MyVector& operator=(const MyVector& copy);
 
     MyVector(MyVector&& other) noexcept;
     MyVector& operator=(MyVector&& other) noexcept;
+    //4
     ~MyVector();
 
     size_t capacity() const;
     size_t size() const;
+    //5
     float loadFactor() const;
-
+    //10
     VectorIterator begin();
     ConstVectorIterator begin() const;
+    //11
     VectorIterator end();
     ConstVectorIterator end() const;
 
     // доступ к элементу, 
     // должен работать за O(1)
+    //11
     ValueType& operator[](const size_t i);
     const ValueType& operator[](const size_t i) const;
 
     // добавить в конец,
     // должен работать за amort(O(1))
+    //8
     void pushBack(const ValueType& value);
     // вставить,
     // должен работать за O(n)
@@ -61,6 +72,7 @@ public:
 
     // удалить с конца,
     // должен работать за amort(O(1))
+    // 7
     void popBack();
     // удалить
     // должен работать за O(n)
@@ -85,7 +97,7 @@ public:
     void clear();
 
 
-
+    //6
     void print();
 private:
     ValueType* _data;

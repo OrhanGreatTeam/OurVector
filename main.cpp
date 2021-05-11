@@ -1,12 +1,26 @@
 #include "MyVector.h"
+#include <iostream>
 
 
 int main() {
 
-	MyVector a(3,1);
-	MyVector a1;
-	a1 = a;
-	a1.popBack();
-	a1.print();
+	MyVector a1(4,5);
+	//VectorIterator Ib;
+	//Ib = a1.begin();
+	//std::cout << *Ib;
+	//VectorIterator Ie;
+	//Ie = a1.end();
+	//std::cout << *Ie;
 
+	VectorIterator I = a1.begin();
+	++I;
+
+	std::cout << std::endl;
+	int i = 0;
+	for (VectorIterator Ib = a1.begin(); Ib <  a1.end();++Ib)
+	{
+		auto v = *Ib;
+		std::cout << v;
+		std::cout << std::endl;
+	}
 }

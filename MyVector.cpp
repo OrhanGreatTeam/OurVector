@@ -1,5 +1,10 @@
 #include "MyVector.h"
 #include <iostream>
+#include "VectorIterator.h"
+
+
+
+
 
 MyVector::MyVector(size_t size, ResizeStrategy ResizeStrategy, float coef)
 {
@@ -38,7 +43,17 @@ MyVector::MyVector(const MyVector& copy)
 	_strategy = copy._strategy;
 	_coef = copy._coef;
 }
+/*
+MyVector& MyVector::operator=(const MyVector& copy)
+{
 
+}*/
+
+
+ValueType& MyVector::operator[](const size_t i)
+{
+	return _data[i];
+}
 
 void MyVector::pushBack(const ValueType& value)
 {
@@ -58,6 +73,21 @@ void MyVector::pushBack(const ValueType& value)
 	_size++;
 }
 
+MyVector& MyVector::operator=(MyVector&& other) noexcept
+{
+	if (other._size > _size) {
+		delete[] _data;
+		_capacity = other._size + 5;
+		_data = new ValueType[_capacity];
+	}
+	for (size_t i = 0; i < other._size; i++)
+	{
+		_data[i] = other._data[i];
+	}
+	_size = other._size;
+	return *this;
+}
+
 MyVector::~MyVector()
 {
 	delete[] _data;
@@ -69,6 +99,19 @@ float MyVector::loadFactor() const
 	float c = (float)(_capacity);
 	return s/c;
 }
+
+VectorIterator MyVector::begin()
+{
+	return VectorIterator(_data);
+}
+
+VectorIterator MyVector::end()
+{
+	return VectorIterator(_data +_size);
+}
+
+
+
 
 void MyVector::print()
 {
