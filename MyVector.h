@@ -34,7 +34,7 @@ public:
         float coef = 1.5f);
     //2
     MyVector(const MyVector& copy);
-    //11
+    
     MyVector& operator=(const MyVector& copy);
 
     MyVector(MyVector&& other) noexcept;
@@ -62,7 +62,7 @@ public:
 
     // добавить в конец,
     // должен работать за amort(O(1))
-    
+    //9
     void pushBack(const ValueType& value);
     // вставить,
     // должен работать за O(n)

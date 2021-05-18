@@ -1,8 +1,7 @@
 #include "MyVector.h"
 #include <iostream>
 #include "VectorIterator.h"
-
-
+using namespace std;
 
 
 
@@ -43,21 +42,28 @@ MyVector::MyVector(const MyVector& copy)
 	_strategy = copy._strategy;
 	_coef = copy._coef;
 }
-/*
-MyVector& MyVector::operator=(const MyVector& copy)
+
+MyVector::MyVector(MyVector&& other) noexcept:
+	_size(other._size), _capacity(other._capacity),
+	_strategy(other._strategy)
 {
 
-}*/
+	other._data = nullptr;
+	other._size = 0;
+	other._capacity = 0;
+}
+
 
 
 ValueType& MyVector::operator[](const size_t i)
 {
+
 	return _data[i];
 }
 
 void MyVector::pushBack(const ValueType& value)
 {
-	if (_size > _capacity) {
+	if (loadFactor() == 1) {
 		if (_strategy == ResizeStrategy::Additive) {
 			_capacity = _size + _coef;
 		}
@@ -72,7 +78,6 @@ void MyVector::pushBack(const ValueType& value)
 	this->_data[_size] = value;
 	_size++;
 }
-
 
 
 MyVector& MyVector::operator=(MyVector&& other) noexcept
