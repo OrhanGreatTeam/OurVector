@@ -38,6 +38,7 @@ public:
     MyVector& operator=(const MyVector& copy);
 
     MyVector(MyVector&& other) noexcept;
+    //15
     MyVector& operator=(MyVector&& other) noexcept;
     //4
     ~MyVector();
@@ -61,7 +62,7 @@ public:
 
     // добавить в конец,
     // должен работать за amort(O(1))
-    //8
+    
     void pushBack(const ValueType& value);
     // вставить,
     // должен работать за O(n)
@@ -91,9 +92,11 @@ public:
     // изменить размер
     // если новый размер больше текущего, то новые элементы забиваются value
     // если меньше - обрезаем вектор
+    //
     void resize(const size_t size, const ValueType& value = ValueType());
 
     // очистка вектора, без изменения capacity
+    //14
     void clear();
 
 

@@ -59,10 +59,10 @@ void MyVector::pushBack(const ValueType& value)
 {
 	if (_size > _capacity) {
 		if (_strategy == ResizeStrategy::Additive) {
-			_capacity = _size + 2;
+			_capacity = _size + _coef;
 		}
 		if (_strategy == ResizeStrategy::Multiplicative) {
-			_capacity = _size * 2;
+			_capacity = _size * _coef;
 		}
 		_data = new ValueType[_capacity];
 		delete[] _data;
@@ -72,6 +72,8 @@ void MyVector::pushBack(const ValueType& value)
 	this->_data[_size] = value;
 	_size++;
 }
+
+
 
 MyVector& MyVector::operator=(MyVector&& other) noexcept
 {
@@ -113,6 +115,15 @@ VectorIterator MyVector::end()
 
 
 
+
+
+void MyVector::clear()
+{
+	delete[] _data;
+	_size = 0;
+	_capacity = 0;
+}
+
 void MyVector::print()
 {
 	for ( size_t i = 0; i < _size ; i++) {
@@ -128,3 +139,4 @@ void MyVector::popBack()
 	_size--;
 	
 }
+
