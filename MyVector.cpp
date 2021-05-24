@@ -1,9 +1,6 @@
 #include "MyVector.h"
 #include <iostream>
 #include "VectorIterator.h"
-using namespace std;
-
-
 
 MyVector::MyVector(size_t size, ResizeStrategy ResizeStrategy, float coef)
 {
@@ -53,8 +50,6 @@ MyVector::MyVector(MyVector&& other) noexcept:
 	other._capacity = 0;
 }
 
-
-
 ValueType& MyVector::operator[](const size_t i)
 {
 
@@ -79,6 +74,25 @@ void MyVector::pushBack(const ValueType& value)
 	_size++;
 }
 
+void MyVector::insert(const size_t i, const ValueType& value)
+{
+	_size = _size + 1;
+
+	if (loadFactor() == 1) {
+		if (_strategy == ResizeStrategy::Additive) {
+			_capacity = _size + _coef;
+		}
+		if (_strategy == ResizeStrategy::Multiplicative) {
+			_capacity = _size * _coef;
+		}
+		_data = new ValueType[_capacity];
+		delete[] _data;
+
+	}
+
+	memcpy(&_data[1 + (i - 1)], &_data[i - 1], (_size - i) * sizeof(ValueType));
+	memcpy(&_data[i - 1], &value, 1 * sizeof(ValueType));
+}
 
 MyVector& MyVector::operator=(MyVector&& other) noexcept
 {
@@ -117,11 +131,6 @@ VectorIterator MyVector::end()
 	return VectorIterator(_data +_size);
 }
 
-
-
-
-
-
 void MyVector::clear()
 {
 	delete[] _data;
@@ -144,4 +153,3 @@ void MyVector::popBack()
 	_size--;
 	
 }
-
