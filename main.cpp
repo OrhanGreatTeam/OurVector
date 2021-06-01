@@ -1,10 +1,12 @@
 #include "MyVector.h"
 #include <iostream>
 
+using namespace std;
+
 
 int main() {
 
-	MyVector a1(4,5);
+	MyVector a1(10,5);
 	//VectorIterator Ib;
 	//Ib = a1.begin();
 	//std::cout << *Ib;
@@ -23,9 +25,22 @@ int main() {
 		std::cout << v;
 		std::cout << std::endl;
 	}*/
-	MyVector a2(4, 5);
+	MyVector a2(4, 3);
 	a2.pushBack(8);
+	a2.pushBack(9);
+	//a2.print();
+
+	/* a1.print(); // проверка вставки вектора в вектор;
+	cout << endl;
 	a2.print();
 
+	a2.insert(2, a1);
+	a2.print(); */
+	
+	//a2.reserve(20);
+	a2.print();
+	a2.erase(0, 3);
+	a2.print();
+	
 
 }

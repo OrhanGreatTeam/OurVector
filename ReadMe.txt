@@ -12,8 +12,5 @@
 insert : все типы
 resize : 
 reserve:
- VectorIterator find:
- erase:
-
-
- lfkfkfkfkfkfkfkfkfkf
+VectorIterator find:
+erase:
