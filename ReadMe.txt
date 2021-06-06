@@ -7,4 +7,10 @@
 
 Что надо сделать:
 
-1).
+1).const нужно реализовать  все что связанно с const типа просто реализовать 
+
+insert : все типы
+resize : 
+reserve:
+VectorIterator find:
+erase:

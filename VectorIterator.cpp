@@ -49,5 +49,10 @@ bool VectorIterator::operator>(const VectorIterator& r)
 	return ptr>r.ptr;
 }
 
+ValueType& VectorIterator::operator[](const size_t i)
+{
+	return ptr[i];
+}
+
 
 

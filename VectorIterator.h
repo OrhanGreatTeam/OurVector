@@ -26,5 +26,7 @@ public:
 	bool operator<(const VectorIterator& r);
 	bool operator>(const VectorIterator& r);
 
+	ValueType& operator[](const size_t i);
+
 };
 
