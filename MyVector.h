@@ -27,7 +27,7 @@ public:
         float coef = 1.5f); //+
 
     MyVector(const MyVector& copy); //+
-    
+
     MyVector& operator=(const MyVector& copy);
 
     MyVector(MyVector&& other) noexcept; // +
@@ -49,8 +49,8 @@ public:
 
     void insert(const size_t i, const ValueType& value); // +   
     void insert(const size_t i, const MyVector& value); // +
-    //void insert(ConstVectorIterator it, const ValueType& value);  // РґР»СЏ РѕРґРЅРѕРіРѕ Р·РЅР°С‡.
-    //void insert(ConstVectorIterator it, const MyVector& value);  // РґР»СЏ РІРµРєС‚РѕСЂР°
+    //void insert(ConstVectorIterator it, const ValueType& value);  // для одного знач.
+    //void insert(ConstVectorIterator it, const MyVector& value);  // для вектора
 
     void popBack(); //+
     void erase(const size_t i); // +

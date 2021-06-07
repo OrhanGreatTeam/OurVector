@@ -6,7 +6,7 @@ using namespace std;
 
 int main() {
 
-	MyVector a1(10,5);
+	MyVector a1(10, 5);
 	//VectorIterator Ib;
 	//Ib = a1.begin();
 	//std::cout << *Ib;
@@ -26,21 +26,24 @@ int main() {
 		std::cout << std::endl;
 	}*/
 	MyVector a2(4, 3);
-	a2.pushBack(8);
-	a2.pushBack(9);
+	for (int i = 0;i < 10;i++) {
+		a2.pushBack(8);
+		i++;
+	}
 	//a2.print();
 
-	/* a1.print(); // Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ° Ð²ÑÑ‚Ð°Ð²ÐºÐ¸ Ð²ÐµÐºÑ‚Ð¾Ñ€Ð° Ð² Ð²ÐµÐºÑ‚Ð¾Ñ€;
+	/* a1.print(); // ïðîâåðêà âñòàâêè âåêòîðà â âåêòîð;
 	cout << endl;
 	a2.print();
 
 	a2.insert(2, a1);
 	a2.print(); */
-	
+	a2.print();
+
 	//a2.reserve(20);
-	a2.print();
+	/*a2.print();
 	a2.erase(0, 3);
-	a2.print();
-	
+	a2.print();*/
+
 
 }

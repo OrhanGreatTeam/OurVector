@@ -6,8 +6,8 @@ class VectorIterator
 {
 private:
 	ValueType* ptr;
-	
-	
+
+
 public:
 	VectorIterator(ValueType* first);
 	VectorIterator();
@@ -25,6 +25,8 @@ public:
 	bool operator!=(const VectorIterator& r);
 	bool operator<(const VectorIterator& r);
 	bool operator>(const VectorIterator& r);
+
+	ValueType& operator[](const size_t i);
 
 };
 

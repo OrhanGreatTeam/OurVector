@@ -2,11 +2,11 @@
 #include <iostream>
 #include "VectorIterator.h"
 
-MyVector::MyVector(size_t size, ResizeStrategy ResizeStrategy, float coef)
+MyVector::MyVector(size_t size, ResizeStrategy ResizeStrategy, float coef) :_coef(coef)
 {
 	_size = size;
 	_strategy = ResizeStrategy;
-	_capacity = (_strategy == ResizeStrategy::Multiplicative) ? (size * 2) : (size + 2);
+	_capacity = (_strategy == ResizeStrategy::Multiplicative) ? (size * _coef) : (size + _coef);
 	_capacity = (_capacity == 0) ? (1) : (_capacity);
 	_data = new ValueType[_capacity];
 	for (size_t i = 0; i < _capacity;i++) {
@@ -33,14 +33,14 @@ MyVector::MyVector(const MyVector& copy)
 {
 
 	_size = copy._size;
-	_capacity = copy._capacity ;
+	_capacity = copy._capacity;
 	_data = new ValueType[_capacity];
-	memcpy(_data, copy._data, sizeof(ValueType)*(_size) );
+	memcpy(_data, copy._data, sizeof(ValueType) * (_size));
 	_strategy = copy._strategy;
 	_coef = copy._coef;
 }
 
-MyVector::MyVector(MyVector&& other) noexcept:
+MyVector::MyVector(MyVector&& other) noexcept :
 	_size(other._size), _capacity(other._capacity),
 	_strategy(other._strategy)
 {
@@ -62,22 +62,39 @@ const ValueType& MyVector::operator[](const size_t i) const
 	return _data[i];
 }
 
-void MyVector::pushBack(const ValueType& value)
-{
-	if (loadFactor() == 1) {
-		if (_strategy == ResizeStrategy::Additive) {
-			_capacity = _size + _coef;
-		}
-		if (_strategy == ResizeStrategy::Multiplicative) {
-			_capacity = _size * _coef;
-		}
-		_data = new ValueType[_capacity];
-		delete[] _data;
-
+//void MyVector::pushBack(const ValueType& value)
+//{
+//	if (loadFactor() == 1) {
+//		if (_strategy == ResizeStrategy::Additive) {
+//			reserve(_capacity * 2);
+//		}
+//		if (_strategy == ResizeStrategy::Multiplicative) {
+//			reserve(_capacity * 2);
+//		}
+//		_data = new ValueType[_capacity];
+//		delete[] _data;
+//
+//	}
+//
+//	this->_data[_size] = value;
+//	_size++;
+//}
+void MyVector::pushBack(const ValueType& value) {
+	if (_size < _capacity) {
+		_data[_size] = value;
+		_size++;
 	}
-
-	this->_data[_size] = value;
-	_size++;
+	else {
+		_capacity *= _coef;
+		ValueType* newDATA = new ValueType[_capacity];
+		for (int i = 0; i < _size; ++i) {
+			newDATA[i] = _data[i];
+		}
+		newDATA[_size] = value;
+		++_size;
+		delete[] _data;
+		_data = newDATA;
+	}
 }
 
 void MyVector::insert(const size_t i, const ValueType& value)
@@ -119,13 +136,14 @@ void MyVector::insert(const size_t i, const MyVector& value)
 	memcpy(&_data[i - 1], value._data, value.size() * sizeof(ValueType));
 }
 
-MyVector& MyVector::operator=(const MyVector& copy)
-{
-
-}
+//MyVector& MyVector::operator=(const MyVector& copy)
+//{
+//
+//}
 
 MyVector& MyVector::operator=(MyVector&& other) noexcept
 {
+
 	if (other._size > _size) {
 		delete[] _data;
 		_capacity = other._size + 5;
@@ -148,7 +166,7 @@ float MyVector::loadFactor() const
 {
 	float s = (float)(_size);
 	float c = (float)(_capacity);
-	return s/c;
+	return s / c;
 }
 
 size_t MyVector::capacity() const
@@ -163,47 +181,47 @@ size_t MyVector::size() const
 
 void MyVector::reserve(const size_t capacity)
 {
-	if (capacity < _size) { 
-        return;
-	}
+	if (capacity < _size)
+		_size = capacity;
+	_capacity = capacity;
+	if (_data == nullptr)
+		_data = new ValueType[_capacity];
+	else {
 
-    else {
-		
-		_capacity = capacity;
-        ValueType *newData = new ValueType[_capacity];
-        memcpy(newData, _data, _size * sizeof(ValueType));
-        delete[] _data;
-        _data = newData;
-    }
+		ValueType* newData = new ValueType[_capacity];
+		memcpy(newData, _data, _size * sizeof(ValueType));
+		delete[] _data;
+		_data = newData;
+	}
 }
 
 void MyVector::resize(const size_t size, const ValueType& value)
 {
 	if (size > _capacity) {
-        reserve(size*_coef);
+		reserve(size * 2);
 
 		for (size_t i = _size; i < size; i++)
-        {
-            _data[i] = value;
-        }
+		{
+			_data[i] = value;
+		}
 
 		_size = size;
-    }
-
-    if (size == _capacity) {
-        return;
 	}
 
-    if (size < _capacity)
-    {
-		ValueType *newData = new ValueType[_capacity];
-        memcpy(newData, _data, _size * sizeof(ValueType));
-        delete[] _data;
-        _data = newData;
+	if (size == _capacity) {
+		return;
+	}
 
-        _size = size;
-    }
-    return;
+	if (size < _capacity)
+	{
+		ValueType* newData = new ValueType[_capacity];
+		memcpy(newData, _data, _size * sizeof(ValueType));
+		delete[] _data;
+		_data = newData;
+
+		_size = size;
+	}
+	return;
 }
 
 void MyVector::erase(size_t i)
@@ -214,9 +232,9 @@ void MyVector::erase(size_t i)
 	}
 
 	for (size_t k = i; k < size() - 1; k++) {
-    
-        this->_data[k] = this->_data[k+1];
-    }
+
+		this->_data[k] = this->_data[k + 1];
+	}
 
 	_size--;
 }
@@ -240,9 +258,9 @@ void MyVector::erase(const size_t i, const size_t len)
 
 	for (size_t k = i; k < size() - len; k++) {
 
-        this->_data[k] = this->_data[k+len];
-    }
-    _size -= len;
+		this->_data[k] = this->_data[k + len];
+	}
+	_size -= len;
 }
 
 VectorIterator MyVector::begin()
@@ -252,19 +270,11 @@ VectorIterator MyVector::begin()
 
 VectorIterator MyVector::end()
 {
-	return VectorIterator(_data +_size);
+	return VectorIterator(_data + _size);
 }
 
-VectorIterator MyVector::find(const ValueType& value, bool isBegin = true) const
-{
-	for (int i = 0; i < _size; i++) {
 
-		if (_data[i] == value) {
 
-			return /*сдесь нужно вернуть итератор на этот элемент*/;
-		}
-	}
-}
 
 void MyVector::clear()
 {
@@ -275,7 +285,7 @@ void MyVector::clear()
 
 void MyVector::print()
 {
-	for ( size_t i = 0; i < _size ; i++) {
+	for (size_t i = 0; i < _size; i++) {
 		std::cout << _data[i];
 
 	}
@@ -286,5 +296,5 @@ void MyVector::popBack()
 {
 	this->_data[_size];
 	_size--;
-	
+
 }
